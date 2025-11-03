@@ -12,6 +12,20 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
+    //Un usuario tiene un candidato
+    public function candidate() {
+        return $this->hasOne(Candidate::class);
+    }
+    //Un usuario pertenece a una empresa 
+    public function company() {
+        return $this->hasOne(Company::class);
+    }
+
+    //Un usuario tiene un rol
+    public function role(){
+        return $this->belongsTo(Role::class);
+    }
+
     /**
      * The attributes that are mass assignable.
      *
