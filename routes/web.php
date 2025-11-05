@@ -59,3 +59,10 @@ Route::post('/experiences', [ExperienceController::class, 'store'])->name("exper
 Route::delete('/experiences/{id}', [ExperienceController::class, 'destroy'])->name("experiences.destroy");
 Route::get('/experiences/{id}', [ExperienceController::class, 'edit'])->name("experiences.edit");
 Route::put('experiences/{id}', [ExperienceController::class, 'update'])->name("experiences.update");
+
+//Rutas CRUD Postulaciones
+Route::get('/applications', [ApplicationController::class, 'index'])->name("applications.index");
+Route::post('/applications', [ApplicationController::class, 'store'])->name("applications.store");
+Route::delete('/applications/{id}', [ApplicationController::class, 'destroy'])->name("applications.destroy");
+Route::get('/applications/{id}', [ApplicationController::class, 'edit'])->name("applications.edit");
+Route::put('applications/{id}', [ApplicationController::class, 'update'])->name("applications.update");
