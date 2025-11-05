@@ -37,3 +37,11 @@ Route::post('/companies',[CompanyController::class, 'store'] )->name('companies.
 Route::get('/companies/{id}',[CompanyController::class, 'edit'] )->name('companies.edit');
 Route::put('/companies/{id}',[CompanyController::class, 'update'] )->name('companies.update');
 Route::delete('/companies/{id}',[CompanyController::class, 'destroy'] )->name('companies.destroy');
+
+//Rutas CRUD Candidato
+Route::get('/candidates', [CandidateController::class, 'index'])->name("candidates.index");
+Route::post('/candidates', [CandidateController::class, 'store'])->name("candidates.store");
+Route::delete('/candidates/{id}', [CandidateController::class, 'destroy'])->name("candidates.destroy");
+Route::get('/candidates/{id}', [CandidateController::class, 'edit'])->name("candidates.edit");
+Route::put('candidates/{id}', [CandidateController::class, 'update'])->name("candidates.update");
+
