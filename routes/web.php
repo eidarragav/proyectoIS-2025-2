@@ -45,3 +45,10 @@ Route::delete('/candidates/{id}', [CandidateController::class, 'destroy'])->name
 Route::get('/candidates/{id}', [CandidateController::class, 'edit'])->name("candidates.edit");
 Route::put('candidates/{id}', [CandidateController::class, 'update'])->name("candidates.update");
 
+//Rutas CRUD Ofertas
+
+Route::get('/offers',[OfferController::class,'index'])->name("offers.index");
+Route::post('/offers',[OfferController::class, 'store'])->name("offers.store");
+Route::get('/offers/{id}/edit',[OfferController::class, 'edit'])->name("offers.edit");
+Route::put('/offers/{id}',[OfferController::class, 'update'])->name("offers.update");
+Route::delete('/offers/{id}',[OfferController::class, 'destroy'])->name("offers.destroy");
