@@ -16,9 +16,9 @@ class CreateApplicationsTable extends Migration
         Schema::create('applications', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('offer_id');
-            $table->foreign('offer_id')->references('id')->on('offers');
+            $table->foreign('offer_id')->references('id')->on('offers')->onDelete('cascade');
             $table->unsignedBigInteger('candidate_id');
-            $table->foreign('candidate_id')->references('id')->on('candidates');
+            $table->foreign('candidate_id')->references('id')->on('candidates')->onDelete('cascade');
             $table->date('application_date');
             $table->string('status');
 
