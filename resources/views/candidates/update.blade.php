@@ -35,7 +35,7 @@
 
             <div class="mb-3">
                 <label for="name" class="form-label fw-bold">Nombre Completo</label>
-                <input type="text" name="name" id="name"
+                <input type="text" name="name" id="name" value="{{$candidate->name}}"
                        class="form-control  border-0 rounded-3 shadow-sm" placeholder="Ingrese su nombre">
             </div>
 

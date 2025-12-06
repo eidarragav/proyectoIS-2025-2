@@ -1,6 +1,14 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ApplicationController;
+use App\Http\Controllers\CandidateController;
+use App\Http\Controllers\CompanyController;
+use App\Http\Controllers\ExperienceController;
+use App\Http\Controllers\OfferController;
+use App\Http\Controllers\RoleController;
+use App\Http\Controllers\StudyController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,7 +23,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('home');
 
 //Rutas CRUD Roles
 Route::get('/roles', [RoleController::class, 'index'])->name("roles.index");
@@ -66,3 +74,10 @@ Route::post('/applications', [ApplicationController::class, 'store'])->name("app
 Route::delete('/applications/{id}', [ApplicationController::class, 'destroy'])->name("applications.destroy");
 Route::get('/applications/{id}', [ApplicationController::class, 'edit'])->name("applications.edit");
 Route::put('applications/{id}', [ApplicationController::class, 'update'])->name("applications.update");
+
+//Rutas CRUD Estudios
+Route::get('/studies', [StudyController::class, 'index'])->name("studies.index");
+Route::post('/studies', [StudyController::class, 'store'])->name("studies.store");
+Route::delete('/studies/{id}', [StudyController::class, 'destroy'])->name("studies.destroy");
+Route::get('/studies/{id}', [StudyController::class, 'edit'])->name("studies.edit");
+Route::put('studies/{id}', [StudyController::class, 'update'])->name("studies.update");
