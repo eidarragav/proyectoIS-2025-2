@@ -7,7 +7,7 @@
     <p class="fs-5 fw-medium text-white mb-4 pb-2">
       Encuentra oportunidades laborales, conecta con empresas y crece profesionalmente.
     </p>
-    <a href="#jobs" class="btn btn-dark py-3 px-5">Registrate WIP</a>
+    <a href="{{route("register")}}" class="btn btn-dark py-3 px-5">Registrate</a>
   </div>
 </div>
 

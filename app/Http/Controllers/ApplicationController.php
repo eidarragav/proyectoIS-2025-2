@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\Application;
 use App\Models\Offer;
 use App\Models\Candidate;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class ApplicationController extends Controller
 {
@@ -117,4 +119,27 @@ class ApplicationController extends Controller
         $applications->delete();
         return redirect()->route("applications.index");
     }
+
+    public function store_application(Request $request)
+    {
+        
+        $user_id = Auth::user()->id;
+
+        // Buscar el candidate del usuario
+        $candidate = Candidate::where('user_id', $user_id)->first();
+
+        if (!$candidate) {
+            return back()->with('error', 'No se encontró un perfil de candidato para este usuario.');
+        }
+
+        $application = new Application();
+        $application->offer_id = $request->offer_id;
+        $application->candidate_id = $candidate->id;
+        $application->application_date = now();
+        $application->status = 'sent';
+        $application->save();
+
+        return back()->with('success', 'Aplicación enviada correctamente.');
+    }
+
 }

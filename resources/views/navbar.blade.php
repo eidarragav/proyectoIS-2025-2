@@ -31,6 +31,8 @@
     <!-- Template Stylesheet -->
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
 </head>
 
 <body>
@@ -47,34 +49,57 @@
 
         <!-- Navbar Start -->
         <nav class="navbar navbar-expand-lg bg-white navbar-light shadow sticky-top p-0">
-            <a href="{{route("home")}}" class="navbar-brand d-flex align-items-center text-center py-0 px-4 px-lg-5">
-                <h1 class="m-0 text-primary">CamelloYa</h1>
-            </a>
-            <button type="button" class="navbar-toggler me-4" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarCollapse">
-                <div class="navbar-nav ms-auto p-4 p-lg-0">
-                    <a href="{{route("home")}}" class="nav-item nav-link active">Home</a>
-                    <a href="{{route("roles.index")}}" class="nav-item nav-link ">Roles</a>
-                    <a href="{{route("users.index")}}" class="nav-item nav-link ">Usuarios</a>
-                    <div class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Candidatos</a>
-                        <div class="dropdown-menu rounded-0 m-0">
-                            <a href="{{route("candidates.index")}}" class="dropdown-item">Candidatos</a>
-                            <a href="{{route("studies.index")}}" class="dropdown-item">Estudios</a>
-                            <a href="{{route("experiences.index")}}" class="dropdown-item">Experiencias</a>
-                        </div>
-                    </div>
-                    <div class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Empresas</a>
-                        <div class="dropdown-menu rounded-0 m-0">
-                            <a href="{{route("companies.index")}}" class="dropdown-item">Empresas</a>
-                            <a href="{{route("offers.index")}}" class="dropdown-item">Ofertas</a>
-                        </div>
-                    </div>
+    <a href="{{ route('home') }}" class="navbar-brand d-flex align-items-center text-center py-0 px-4 px-lg-5">
+        <h1 class="m-0 text-primary">CamelloYa</h1>
+    </a>
+    <button type="button" class="navbar-toggler me-4" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarCollapse">
+        <div class="navbar-nav ms-auto p-4 p-lg-0">
+
+            @auth
+
+                @if (Auth::user()->role_id == 1)
+                    <a href="{{route("candidate.show_offers")}}" class="nav-item nav-link">Ofertas disponibles</a>
+                    <a href="{{route("candidate.show_applications")}}" class="nav-item nav-link">Mis postulaciones</a>
+                    <a href="{{route("candidate.dashboard")}}" class="nav-item nav-link">Mi perfil</a>
+                @endif
+
+
+                @if (Auth::user()->role_id == 2)
+                    <a href="{{route("company.published_offers")}}" class="nav-item nav-link">Ofertas publicadas</a>
+                    <a href="{{route("company.recieved_applications")}}" class="nav-item nav-link">Postulaciones recibidas</a>
+                    <a href="{{route("company.dashboard")}}" class="nav-item nav-link">Mi perfil empresa</a>
+                @endif
+
+
+                @if (Auth::user()->role_id == 3)
+                    <a href="{{route("users.index")}}" class="nav-item nav-link">Usuarios</a>
+                    <a href="{{route("roles.index")}}" class="nav-item nav-link">Roles</a>
+                    <a href="{{route("candidates.index")}}" class="nav-item nav-link">Candidatos</a>
+                    <a href="{{route("companies.index")}}" class="nav-item nav-link">Empresas</a>
                     <a href="{{route("applications.index")}}" class="nav-item nav-link">Postulaciones</a>
-                </div>
-                <a href="" class="btn btn-primary rounded-0 py-4 px-lg-5 d-none d-lg-block">Logearse WIP<i class="fa fa-arrow-right ms-3"></i></a>
-            </div>
-        </nav>
+                    <a href="{{route("experiences.index")}}" class="nav-item nav-link">Experiencias</a>
+                    <a href="{{route("studies.index")}}" class="nav-item nav-link">Estudios</a>
+                    <a href="{{route("offers.index")}}" class="nav-item nav-link">Ofertas</a>
+                @endif
+
+            @endauth
+        </div>
+
+        @guest
+            <a href="{{ route('login') }}" class="btn btn-primary rounded-0 py-4 px-lg-5 d-none d-lg-block">
+                Iniciar sesión <i class="fa fa-arrow-right ms-3"></i>
+            </a>
+        @else
+            <form action="{{ route('logout') }}" method="POST" class="d-none d-lg-block mb-0">
+                @csrf
+                <button type="submit" class="btn btn-success rounded-0 py-4 px-lg-5">
+                    Cerrar sesión <i class="fa fa-sign-out-alt ms-3"></i>
+                </button>
+            </form>
+        @endguest
+    </div>
+</nav>

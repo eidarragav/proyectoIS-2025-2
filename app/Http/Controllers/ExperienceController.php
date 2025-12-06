@@ -52,7 +52,7 @@ class ExperienceController extends Controller
 
         $experience->save();
 
-        return redirect()->route("experiences.index");
+        return back();
     }
 
     /**
@@ -102,7 +102,10 @@ class ExperienceController extends Controller
 
         $experience->save();
 
-        return redirect()->route("experiences.index");
+        if(auth()->user()->role_id == 3){
+            return redirect()->route("experiences.index");
+        }
+        return redirect()->route("candidate.dashboard");
     }
 
     /**
@@ -117,6 +120,66 @@ class ExperienceController extends Controller
         $experience = Experience::find($id);
         $experience->delete();
 
-        return redirect()->route("experiences.index");
+
+        if(auth()->user()->role_id == 3){
+            return redirect()->route("experiences.index");
+        }
+        return redirect()->route("candidate.dashboard");
     }
+
+    public function create_experience_candidate($id)
+    {
+        $candidate = Candidate::findOrFail($id);
+
+        return view('candidates.add_experiences.index', compact('candidate'));
+    }
+
+    public function storeExperienceCandidate(Request $request)
+{
+    $request->validate([
+        'job_title' => 'required',
+        'company' => 'required',
+        'functions' => 'required',
+        'status' => 'required',
+        'start_date' => 'required|date',
+        'finish_date' => 'nullable|date',
+        'candidate_id' => 'required|exists:candidates,id',
+    ]);
+
+    Experience::create($request->all());
+
+    return redirect()->back()->with('success', 'Experiencia agregada correctamente.');
+}
+
+public function editExperienceCandidate($id){
+    $experience = Experience::findOrFail($id);
+    $candidate = auth()->user()->candidate;
+
+    return view('candidates.add_experiences.edit', compact('experience', 'candidate'));
+}
+
+public function updateExperienceCandidate(Request $request, $id){
+    $experience = Experience::findOrFail($id);
+
+    // usar el candidate del usuario autenticado para mayor seguridad
+    $candidate = auth()->user()->candidate;
+    if ($experience->candidate_id !== $candidate->id) {
+        abort(403);
+    }
+
+    $data = $request->validate([
+        'job_title' => 'required|string',
+        'company' => 'required|string',
+        'functions' => 'nullable|string',
+        'status' => 'nullable|string',
+        'start_date' => 'nullable|date',
+        'finish_date' => 'nullable|date|after_or_equal:start_date',
+        // candidate_id no es necesario validarlo desde formulario, puedes forzarlo:
+    ]);
+
+    $data['candidate_id'] = $candidate->id; // asegurar relación
+    $experience->update($data);
+
+    return redirect()->route('candidate.dashboard');
+}
 }

@@ -41,7 +41,7 @@
             <div class="mb-3">
                 <label for="status" class="form-label fw-bold">Estado</label>
                 <select name="status" id="status" 
-                        class="form-select border-0 rounded-3 shadow-sm">                <option value="" selected disabled>Seeccione el estado de la aplicacion</option>
+                        class="form-select border-0 rounded-3 shadow-sm" >
                     <option value="sent" {{$application->status=='sent' ? 'selected' : ''}}>Enviada</option>
                     <option value="under_review" {{$application->status=='under_review' ? 'selected' : ''}}>En proceso</option>
                     <option value="selected" {{$application->status=='selected' ? 'selected' : ''}}>Seleccionado</option>

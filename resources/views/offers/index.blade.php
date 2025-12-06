@@ -16,8 +16,6 @@
         <form action="{{route('offers.store')}}" method="post">
             @csrf
             <div class="mb-3">
-                
-                
                 <label for="" name="company_id" class="form-label fw-bold ">Empresa</label>
                 <select class="form-select border-0 rounded-3 shadow-sm" name="company_id" > 
                     @foreach($companies as $company)

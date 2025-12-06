@@ -26,6 +26,6 @@ class Candidate extends Model
 
     //Un candidato tiene muchas postulaciones
     public function application(){
-        return $this->hasMany(Applications::class);
+        return $this->hasMany(Application::class);
     }
 }

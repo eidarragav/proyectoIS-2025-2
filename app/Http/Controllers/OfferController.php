@@ -17,7 +17,7 @@ class OfferController extends Controller
     public function index()
     {
         $offers= Offer::all();
-        $companies= Company::all();
+        $companies = Company::all();
         return view('offers.index',compact('offers','companies'));
     }
 

@@ -50,7 +50,11 @@ class StudyController extends Controller
 
         $study->save();
 
-        return redirect()->route("studies.index");
+        if(auth()->user()->role_id == 3){
+            return redirect()->route("studies.index");
+        }
+
+        return redirect()->route("candidate.dashboard");
     }
 
     /**
@@ -98,7 +102,10 @@ class StudyController extends Controller
 
         $study->save();
 
-        return redirect()->route("studies.index");
+        if(auth()->user()->role_id == 3){
+            return redirect()->route("studies.index");
+        }
+        return redirect()->route("candidate.dashboard");
 
     }
 
@@ -113,6 +120,70 @@ class StudyController extends Controller
         $study = Study::find($id);
         $study->delete();
 
-        return redirect()->route("studies.index");
+        if(auth()->user()->role_id == 3){
+            return redirect()->route("studies.index");
+        }
+        return redirect()->route("candidate.dashboard");
+    }
+
+     public function createForCandidate(Candidate $candidate)
+    {
+        return view('candidates.add_studies.index', compact('candidate'));
+    }
+
+    public function store_Studies_Candidate(Request $request)
+    {
+        $data = $request->validate([
+            'candidate_id' => 'required|exists:candidates,id',
+            'study_level'  => 'required|string',
+            'institution'  => 'nullable|string|max:255',
+            'study_name'   => 'nullable|string|max:255',
+            'status'       => 'nullable|string',
+            'start_date'   => 'nullable|date',
+            'finish_date'  => 'nullable|date|after_or_equal:start_date',
+        ]);
+
+        Study::create($data);
+
+        return redirect()->route('candidate.dashboard')
+                         ->with('success', 'Estudio agregado correctamente.');
+    }
+
+    public function editStudiesCandidate($id)
+    {
+        $study = Study::findOrFail($id);
+
+        $candidate = auth()->user()->candidate ?? null;
+
+        if (! $candidate || $study->candidate_id !== $candidate->id) {
+            abort(403, 'No autorizado para editar este estudio.');
+        }
+
+        return view('candidates.add_studies.edit', compact('study', 'candidate'));
+    }
+
+    public function updateStudiesCandidate(Request $request, $id)
+    {
+        $study = Study::findOrFail($id);
+        $candidate = auth()->user()->candidate ?? null;
+
+        if (! $candidate || $study->candidate_id !== $candidate->id) {
+            abort(403, 'No autorizado.');
+        }
+
+        $data = $request->validate([
+            'study_level'  => 'required|string',
+            'institution'  => 'nullable|string|max:255',
+            'study_name'   => 'nullable|string|max:255',
+            'status'       => 'nullable|string|in:in_progress,finished',
+            'start_date'   => 'nullable|date',
+            'finish_date'  => 'nullable|date|after_or_equal:start_date',
+        ]);
+
+        $data['candidate_id'] = $candidate->id;
+
+        $study->update($data);
+
+        return redirect()->route('candidate.dashboard');
     }
 }

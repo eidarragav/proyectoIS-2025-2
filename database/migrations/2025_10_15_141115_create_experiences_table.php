@@ -20,7 +20,7 @@ class CreateExperiencesTable extends Migration
             $table->string('functions');
             $table->string('status');
             $table->date('start_date');
-            $table->date('finish_date');
+            $table->date('finish_date')->nullable();
             $table->unsignedBigInteger('candidate_id');
             $table->foreign('candidate_id')->references('id')->on('candidates')->onDelete('cascade');
 

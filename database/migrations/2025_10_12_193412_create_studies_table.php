@@ -23,7 +23,7 @@ class CreateStudiesTable extends Migration
             $table->string("study_name");
             $table->string("status");
             $table->date("start_date");
-            $table->date("finish_date");
+            $table->date("finish_date")->nullable();
         });
     }
 

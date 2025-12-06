@@ -105,4 +105,18 @@ class UserController extends Controller
         
         return redirect()->route("users.index");
     }
+    public function updatePhoto(Request $request)
+    {
+        $request->validate([
+            'photo_id' => 'required|integer'
+        ]);
+
+        $user = auth()->user();
+        $user->profile_photo = $request->photo_id;
+        $user->save();
+
+        return response()->json(['success' => 'Foto de perfil actualizada correctamente']);
+    }
+
+
 }

@@ -18,7 +18,7 @@
             @method("PUT")
             <div class="mb-3">
                 <label for="role_name" class="form-label fw-bold">Nombre del rol</label>
-                <input type="text" name="role_name" id="role_name"
+                <input type="text" name="role_name" id="role_name" value="{{$role->role_name}}"
                        class="form-control  border-0 rounded-3 shadow-sm" placeholder="Ingrese su nombre">
             </div>
 

@@ -15,6 +15,6 @@ class Company extends Model
     
     //Una Empresa tienen muchas ofertas
     public function offer(){
-        return $this->haveMany(Offer::class);
+        return $this->hasMany(Offer::class);
     }
 }
